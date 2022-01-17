@@ -10,7 +10,9 @@
 
 RF24 radio(9, 10);
 const byte address[6] = "10101";
-double claw = 83, connecter = 55, initial = 33, last_posx = 60, last_posy = 60, last_posz = 60;
+int number=0;
+
+double claw = 85, connecter = 55, initial = 33, last_posx = 60, last_posy = 60, last_posz = 60;
 struct Data_Package {
   byte j1PotX;
   byte j1PotY;
@@ -23,45 +25,12 @@ struct Data_Package {
   byte Ex;
 };
 Data_Package data;
-Adafruit_PWMServoDriver Servo1 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo2 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo3 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo4 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo5 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo6 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo7 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo8 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo9 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo10 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo11 = Adafruit_PWMServoDriver();
-Adafruit_PWMServoDriver Servo12 = Adafruit_PWMServoDriver();
+Adafruit_PWMServoDriver Servo = Adafruit_PWMServoDriver();
 void setup() {
-  Servo1.begin();
-  Servo2.begin();
-  Servo3.begin();
-  Servo4.begin();
-  Servo5.begin();
-  Servo6.begin();
-  Servo7.begin();
-  Servo8.begin();
-  Servo9.begin();
-  Servo10.begin();
-  Servo11.begin();
-  Servo12.begin();
-
-  Servo1.setPWMFreq(SERVO_FREQ);
-  Servo2.setPWMFreq(SERVO_FREQ);
-  Servo3.setPWMFreq(SERVO_FREQ);
-  Servo4.setPWMFreq(SERVO_FREQ);
-  Servo5.setPWMFreq(SERVO_FREQ);
-  Servo6.setPWMFreq(SERVO_FREQ);
-  Servo7.setPWMFreq(SERVO_FREQ);
-  Servo8.setPWMFreq(SERVO_FREQ);
-  Servo9.setPWMFreq(SERVO_FREQ);
-  Servo10.setPWMFreq(SERVO_FREQ);
-  Servo11.setPWMFreq(SERVO_FREQ);
-  Servo12.setPWMFreq(SERVO_FREQ);
-
+  Servo.begin();
+  Servo.setPWMFreq(SERVO_FREQ);
+  yield();
+  
   Serial.begin(9600);
   radio.begin();
   radio.openReadingPipe(0, address);
@@ -70,25 +39,31 @@ void setup() {
   radio.setPALevel(RF24_PA_LOW);
   radio.startListening();
   Default();
+  
 }
 void loop() {
   double ServoDeg, a;
+  
   char cons = Serial.read();
-  /*if (radio.available()) {
+  if (radio.available()) {
     radio.read(&data, sizeof(Data_Package));
     Serial.println(data.j1PotX);
     Serial.println(data.j2PotY);
     if(data.Square==1){
       int j1x=map(data.j1PotX,0,255,40,-40),j1y=map(data.j1PotY,0,255,-40,40);
       BodyMove(j1x,j1y,60);
-    }
+   }
  
 
 
     if (cons == '+') {
-      Servo3.setPWM(2, 0, 675);
+      number=number + 5;
+      Servo.setPWM(8, 0, number);
+      Serial.println(number);
     } else if (cons == '-') {
-      Servo3.setPWM(2, 0, 130);
+      number=number -5;
+      Servo.setPWM(8, 0, number);
+      Serial.println(number);
     } else if (cons == '0') {
       Default();
     } else if (cons == '1' || cons == 't') {
@@ -99,14 +74,13 @@ void loop() {
       Walk();
     } else if (cons == '4') {
     }
-  }*/
-  BodyMovetest();
-}
+  }
+ }
 void Default() {
-  Pos1(70, 70, 60);
-  Pos2(70, 70, 60);
-  Pos3(70, 70, 60);
-  Pos4(70, 70, 60);
+  Pos1(40, 40, 60);
+  Pos2(40, 40, 60);
+  Pos3(40, 40, 60);
+  Pos4(40, 40, 60);
 }
 void Twerk() {
   for (int i = 0 ; i <= 41 ; i++) {
@@ -144,30 +118,27 @@ void Walk() {
   delay(t);
   Pos4(70, 20, 60);
   delay(t);
-  for (int i = 0 ; i < 5 ; i++) {
-    Pos2(70, 120, 0);
-    delay(t);
-    Pos2(70, 120, 60);
-    delay(t);
-    Pos1(70, 20, 60);
-    Pos2(70, 70, 60);
-    Pos3(70, 120, 60);
-    Pos4(70, 70, 60);
-    delay(t);
-    Pos3(70, 20, 40);
-    delay(t);
-    Pos3(70, 20, 60);
-    delay(t);
-    Pos1(70, 120, 0);
-    delay(t);
-    Pos1(70, 120, 60);
-    delay(t);
-    Pos1(70, 70, 60);
-    Pos2(70, 20, 60);
-    Pos3(70, 70, 60);
-    Pos4(70, 20, 60);
-    delay(t);
-  }
+  Pos2(70, 120, 0);
+  delay(t);
+  Pos2(70, 120, 60);
+  delay(t);
+  Pos1(70, 20, 60);
+  Pos2(70, 70, 60);
+  Pos3(70, 120, 60);
+  Pos4(70, 70, 60);
+  delay(t);
+  Pos3(70, 20, 40);
+  delay(t);
+  Pos3(70, 20, 60);
+  delay(t);
+  Pos1(70, 120, 0);
+  delay(t);
+  Pos1(70, 120, 60);
+  delay(t);
+  Pos1(70, 70, 60);
+  Pos2(70, 20, 60);
+  Pos3(70, 70, 60);
+  Pos4(70, 20, 60);
 }
 void Walktest(int xchange[4], int ychange[4]) {
   int i, t = 600, lastposx[4] = {70, 70, 70, 70}, lastposy[4] = {70, 70, 70, 70};
@@ -206,9 +177,9 @@ void Pos1(float posx, float posy, float posz) {
   gam = ((180 * (atan(posx / posy))) / PI + 45);
   bet = (180 * acos((L * L - claw * claw - connecter * connecter) / (-2 * claw * connecter))) / PI;
   al = (al1 + al2);
-  VServo1 = map(gam, 0, 180, 130, 670);
-  VServo2 = map(al, 0, 180, 130, 675);
-  VServo3 = map(bet, 0, 180, 150, 690);
+  VServo1 = map(gam, 0, 180, 130, 650);
+  VServo2 = map(al, 0, 180, 95, 620);
+  VServo3 = map(bet, 0, 180, 95, 630);
   //Serial.println("=====================");
   //Serial.print(gam);
   //Serial.print("\t");
@@ -216,9 +187,9 @@ void Pos1(float posx, float posy, float posz) {
   //Serial.print("\t");
   //Serial.print(bet);
   //Serial.print("\n");
-  Servo1.setPWM(0, 0, VServo1);
-  Servo2.setPWM(1, 0, VServo2);
-  Servo3.setPWM(2, 0, VServo3);
+  Servo.setPWM(0, 0, VServo1);
+  Servo.setPWM(1, 0, VServo2);
+  Servo.setPWM(2, 0, VServo3);
 }
 void Pos2(float posx, float posy, float posz) {
   double al, al1, al2, bet, gam, L, L1 = sqrt(posx * posx + posy * posy), VServo3, VServo2, VServo1;
@@ -228,18 +199,18 @@ void Pos2(float posx, float posy, float posz) {
   gam = ((180 * (atan(posy / posx))) / PI + 45);
   bet = (180 * acos((L * L - claw * claw - connecter * connecter) / (-2 * claw * connecter))) / PI;
   al = 180 - (al1 + al2);
-  VServo1 = map(gam, 0, 180, 130, 680);
-  VServo2 = map(al, 0, 180, 130, 700);
-  VServo3 = map(bet, 0, 180, 630, 130);
+  VServo1 = map(gam, 0, 180, 95, 650);
+  VServo2 = map(al, 0, 180, 95, 630);
+  VServo3 = map(bet, 0, 180, 620, 95);
   //Serial.print(gam);
   //Serial.print("\t");
   //Serial.print(al);
   //Serial.print("\t");
   //Serial.print(bet);
   //Serial.print("\n");
-  Servo4.setPWM(3, 0, VServo1);
-  Servo5.setPWM(4, 0, VServo2);
-  Servo6.setPWM(5, 0, VServo3);
+  Servo.setPWM(3, 0, VServo1);
+  Servo.setPWM(4, 0, VServo2);
+  Servo.setPWM(5, 0, VServo3);
 }
 void Pos3(float posx, float posy, float posz) {
   double al, al1, al2, bet, gam, L, L1 = sqrt(posx * posx + posy * posy), VServo3, VServo2, VServo1;
@@ -249,18 +220,18 @@ void Pos3(float posx, float posy, float posz) {
   gam = ((180 * (atan(posy / posx))) / PI + 45);
   bet = (180 * acos((L * L - claw * claw - connecter * connecter) / (-2 * claw * connecter))) / PI;
   al = 180 - (al1 + al2);
-  VServo1 = map(gam, 0, 180, 130, 675);
-  VServo2 = map(al, 0, 180, 130, 730); //2000
-  VServo3 = map(bet, 0, 180, 680, 130);
+  VServo1 = map(gam, 0, 180, 130, 650);         //Temmp changed from 110 650
+  VServo2 = map(al, 0, 180, 95, 630); //2000
+  VServo3 = map(bet, 0, 180, 630, 95);
   //Serial.print(gam);
   //Serial.print("\t");
   //Serial.print(al);
   //Serial.print("\t");
   //Serial.print(bet);
   //Serial.print("\n");
-  Servo7.setPWM(6, 0, VServo1);
-  Servo8.setPWM(7, 0, VServo2);
-  Servo9.setPWM(8, 0, VServo3);
+  Servo.setPWM(6, 0, VServo1);
+  Servo.setPWM(7, 0, VServo2);
+  Servo.setPWM(8, 0, VServo3);
 }
 void Pos4(float posx, float posy, float posz) {
   double al, al1, al2, bet, gam, L, L1 = sqrt(posx * posx + posy * posy), VServo3, VServo2, VServo1;
@@ -270,18 +241,18 @@ void Pos4(float posx, float posy, float posz) {
   gam = ((180 * (atan(posx / posy))) / PI + 45);
   bet = (180 * acos((L * L - claw * claw - connecter * connecter) / (-2 * claw * connecter))) / PI;
   al = (al1 + al2);
-  VServo1 = map(gam, 0, 180, 130, 675);
-  VServo2 = map(al, 0, 180, 130, 675);
-  VServo3 = map(bet, 0, 180, 130, 670);
+  VServo1 = map(gam, 0, 180, 95, 620);
+  VServo2 = map(al, 0, 180, 95, 630); //2000
+  VServo3 = map(bet, 0, 180, 95, 630);
   //Serial.print(gam);
   //Serial.print("\t");
   //Serial.print(al);
   //Serial.print("\t");
   //Serial.print(bet);
   //Serial.print("\n");
-  Servo10.setPWM(9, 0, VServo1);
-  Servo11.setPWM(10, 0, VServo2);
-  Servo12.setPWM(11, 0, VServo3);
+  Servo.setPWM(9, 0, VServo1);
+  Servo.setPWM(10, 0, VServo2);
+  Servo.setPWM(11, 0, VServo3);
 }
 void BodyMove(int posx, int posy, int posz) {
   Pos1(60 + posx, 60 - posy, posz);
