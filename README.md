@@ -14,3 +14,8 @@ I did only one record. I pulished It on [linkedin](https://www.linkedin.com/post
 - 16 Channel PWM Servo Driver with I2C Interface
 - nrf24l01 for Radio Communication
 - 18650 Li-ion Battary
+
+# Schematic
+//TODO Schematic
+
+
