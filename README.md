@@ -8,5 +8,9 @@ I did only one record. I pulished It on [linkedin](https://www.linkedin.com/post
 
 ![1](/images/Quadruped_V0.jpg)
 
+# Components
 
-
+- Arduino Namo
+- 16 Channel PWM Servo Driver with I2C Interface
+- nrf24l01 for Radio Communication
+- 18650 Li-ion Battary
