@@ -30,7 +30,7 @@ I did only one record. I pulished It on [linkedin](https://www.linkedin.com/post
 | Pos3()         |             | &cross; |
 | Pos4()         |             | &cross; |
 | BodyMove()     |             | &cross; |
-| BodyMoveTest() |             |         |
+| BodyMoveTest() |   &cross;   |         |
 
 <p>
     <img alt="Spider" src="images/Quadruped_V0.jpg"
