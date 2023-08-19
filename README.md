@@ -1,9 +1,6 @@
 # Quadrupedal Robot on Arduino with RC
-<a >
-    <img alt="" src="https://img.shields.io/static/v1?label=Project%20Status&message=Ended&color=red&?style=for-the-badge"
-    width=200 height=30>
-    <br>
- </a>
+*I decided to archive this repository. If you interested in something you can always contact me at kozha.akhmt@gmail.com*
+#
 Started in November 2020.
 
 This is my first robotics project. Main purpose was to study and make the robot that can walk and controlled remotely. Due to, I did It from scratch. It uses RC communication and recieves It from my [RC controller](https://github.com/KozhaAkhmet/RC-Controller).
